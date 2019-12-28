@@ -1,0 +1,268 @@
+podspec_prefix:
+  ios: swiftlibs
+  watchos: watchlibs
+  osx: maclibs
+author: Claude Houle
+summary: A series of extensions & micro-frameworks for swift apps
+homepage: https://github.com:choule99/podmaker.git
+platforms:
+  ios: '12.4'
+  watchos: '5.0'
+  osx: '10.15'
+version: '5.0.0'
+license: MIT
+git:
+  url: git@github.com:choule99/podmaker.git
+  branch: master
+swift_versions:
+  - '5.0'
+  - '5.1'
+targets:
+  - name: swiftlibs_foundation
+    podspec_suffix: foundation
+    deployment:
+      - ios
+      - watchos
+      - osx
+    sources:
+      - src/foundation/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+    deps:
+      CryptoSwift:
+        version: 1.2.0
+        ios: true
+        watchos: false
+        osx: true
+      Device:
+        version: 3.2.1
+        ios: true
+        watchos: false
+        osx: false
+      KeychainAccess:
+        version: 4.1.0
+        ios: true
+        watchos: false
+        osx: true
+      SwifterSwift:
+        version: 5.1.0
+      XMLCoder:
+        version: 0.9.0
+  - name: swiftlibs_di
+    podspec_suffix: di
+    deployment:
+      - ios
+      - watchos
+      - osx
+    sources:
+      - src/di/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+      UIKit:
+        ios: true
+        watchos: false
+        osx: false
+      AppKit:
+        ios: false
+        watchos: false
+        osx: true
+      WatchKit:
+        ios: false
+        watchos: true
+        osx: false
+    siblings:
+      - foundation
+  - name: swiftlibs_flow
+    podspec_suffix: flow
+    deployment:
+      - ios
+    sources:
+      - src/flow/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+      UIKit:
+    siblings:
+      - uikit
+  - name: swiftlibs_menu
+    podspec_suffix: menu
+    deployment:
+      - ios
+    sources:
+      - src/menu/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+      UIKit:
+    deps:
+      SidebarOverlay:
+        git:
+          url: git@github.com:choule99/SidebarOverlay.git
+          branch: master
+    siblings:
+      - uikit
+  - name: swiftlibs_tracker
+    podspec_suffix: tracker
+    deployment:
+      - ios
+    sources:
+      - src/tracker/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+    siblings:
+      - foundation
+  - name: swiftlibs_coredata
+    podspec_suffix: coredata
+    deployment:
+      - ios
+      - osx
+    sources:
+      - src/coredata/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+      CoreData:
+    siblings:
+      - foundation
+    deps:
+      SwifterSwift:
+        version: 5.1.0
+  - name: swiftlibs_coregraphics
+    podspec_suffix: coregraphics
+    deployment:
+      - ios
+      - osx
+    sources:
+      - src/coregraphics/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+      CoreGraphics:
+      QuartzCore:
+    siblings:
+      - foundation
+    deps:
+      SwifterSwift:
+        version: 5.1.0
+  - name: swiftlibs_corelocation
+    podspec_suffix: corelocation
+    deployment:
+      - ios
+      - watchos
+    sources:
+      - src/corelocation/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+      CoreLocation:
+    deps:
+      SwiftLocation:
+        version: 4.2.0
+        ios: true
+        watchos: false
+        osx: false
+      SwifterSwift:
+        version: 5.1.0
+    siblings:
+      - foundation
+  - name: swiftlibs_mapkit
+    podspec_suffix: mapkit
+    deployment:
+      - ios
+    sources:
+      - src/mapkit/**/*.{h,m,swift}
+    deps:
+      SwifterSwift:
+        version: 5.1.0
+    frameworks:
+      Foundation:
+      CoreLocation:
+      MapKit:
+    siblings:
+      - corelocation
+      - uikit
+  - name: swiftlibs_realm
+    podspec_suffix: realm
+    deployment:
+      - ios
+      - osx
+    sources:
+      - src/realm/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+    deps:
+      KeychainAccess:
+        version: 4.1.0
+      RealmSwift:
+        version: 4.1.1
+      SwifterSwift:
+        version: 5.1.0
+    siblings:
+      - foundation
+  - name: swiftlibs_alamo
+    podspec_suffix: alamo
+    deployment:
+      - ios
+      - osx
+      - watchos
+    sources:
+      - src/alamofire/**/*.{h,m,swift}
+    resources:
+      - src/alamofire/**/*.{strings,stringsdict}
+    frameworks:
+      Foundation:
+    deps:
+      Alamofire:
+        version: 4.9.1
+      AlamofireImage:
+        version: 3.6.0
+        ios: true
+        watchos: false
+        osx: false
+      AlamofireNetworkActivityIndicator:
+        version: 2.4.0
+        ios: true
+        watchos: false
+        osx: false
+    siblings:
+      - foundation
+      - tracker
+  - name: swiftlibs_sourcery
+    podspec_suffix: sourcery
+    omit_podfile: true
+    deployment:
+      - ios
+    sources:
+      - src/sourcery/**/*.{h,m,swift,stencil}
+    frameworks:
+      Foundation:
+    deps:
+      Sourcery:
+  - name: swiftlibs_uikit
+    podspec_suffix: uikit
+    deployment:
+      - ios
+    sources:
+      - src/uikit/**/*.{h,m,swift}
+    frameworks:
+      Foundation:
+      UIKit:
+    deps:
+      SnapKit:
+        version: 5.0.1
+      NVActivityIndicatorView:
+        version: 4.8.0
+      KeychainAccess:
+        version: 4.1.0
+      SwipeCellKit:
+        version: 2.7.1
+      BRYXBanner:
+        version: 0.8.4
+      SZTextView:
+        version: 1.3.0
+      Toaster:
+        version: 2.2.0
+      R.swift:
+        version: 5.1.0
+      ReachabilitySwift:
+        version: 5.0.0
+      SwifterSwift:
+        version: 5.1.0
+    siblings:
+      - foundation
+      - coregraphics

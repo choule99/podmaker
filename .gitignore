@@ -1,0 +1,4 @@
+*.podspec
+podmaker.json
+Podfile
+node_modules

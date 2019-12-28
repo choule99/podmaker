@@ -1,0 +1,24 @@
+{
+  "name": "podmaker",
+  "version": "1.0.0",
+  "description": "A simple tool that takes YAML file and generate corresponding Podfile & PodSpecs",
+  "main": "src/App.js",
+  "scripts": {
+    "convert": "node bin.js"
+  },
+  "bin": {
+    "podmaker": "./bin.js"
+  },
+  "keywords": [
+    "cocoapods"
+  ],
+  "author": "claude.houle@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^6.1.0",
+    "lodash": "^4.17.15",
+    "rimraf": "^3.0.0",
+    "yaml": "^1.7.2"
+  }
+}
