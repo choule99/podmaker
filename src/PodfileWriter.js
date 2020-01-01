@@ -7,41 +7,24 @@ class PodfileWriter {
         let content = '';
         content += 'use_frameworks!\n\n';
 
+        let targetBySuffix = {};
+        _.map(config.targets,
+              target => {
+                  targetBySuffix[target.suffix] = target;
+              });
+
         _.forEach(config.targets,
                   target => {
 
                       if (target.omitPodfile === true) return;
 
                       content += `target '${target.name}' do\n`;
+                      content += this.generatePlatform(target,
+                                                       config);
 
-                      let platform = target.platform;
-                      content += `\tplatform :${platform}, '${config.platforms[platform]}'\n`;
-
-                      if (target.dependencies) {
-
-                          _.forEach(target.dependencies,
-                                    dep => {
-                                        content += `\tpod '${dep.name}'`;
-
-                                        if (_.isString(dep.version)) {
-                                            content += `, '~> ${dep.version}'`;
-                                        }
-
-                                        if (dep.git) {
-                                            if (_.isString(dep.git.url)) {
-                                                content += `, :git => '${dep.git.url}'`;
-
-                                                if (_.isString(dep.git.tag)) {
-                                                    content += `, :tag => '${dep.git.tag}'`;
-                                                } else if (_.isString(dep.git.branch)) {
-                                                    content += `, :branch => '${dep.git.branch}'`;
-                                                }
-                                            }
-                                        }
-
-                                        content += '\n';
-                                    });
-                      }
+                      content += this.generateDependencies(target);
+                      content += this.generateSiblings(target,
+                                                       targetBySuffix);
                       content += `end\n\n`;
                   });
 
@@ -81,6 +64,58 @@ end
 
         fs.writeFileSync('Podfile',
                          content);
+    }
+
+    generatePlatform(target, config) {
+        let platform = target.platform;
+        let content = '';
+        content += `\tplatform :${platform}, '${config.platforms[platform]}'\n`;
+        return content;
+    }
+
+    generateSiblings(target, targetByName) {
+        let content = '';
+        if (target.siblings) {
+            _.forEach(target.siblings,
+                      sibling => {
+
+                          let siblingTarget = targetByName[sibling];
+                          if (siblingTarget) {
+                              content += this.generateDependencies(siblingTarget);
+                          }
+
+                      });
+        }
+        return content;
+    }
+
+    generateDependencies(target) {
+        let content = '';
+        if (target.dependencies) {
+            _.forEach(target.dependencies,
+                      dep => {
+                          content += `\tpod '${dep.name}'`;
+
+                          if (_.isString(dep.version)) {
+                              content += `, '~> ${dep.version}'`;
+                          }
+
+                          if (dep.git) {
+                              if (_.isString(dep.git.url)) {
+                                  content += `, :git => '${dep.git.url}'`;
+
+                                  if (_.isString(dep.git.tag)) {
+                                      content += `, :tag => '${dep.git.tag}'`;
+                                  } else if (_.isString(dep.git.branch)) {
+                                      content += `, :branch => '${dep.git.branch}'`;
+                                  }
+                              }
+                          }
+
+                          content += '\n';
+                      });
+        }
+        return content;
     }
 }
 
