@@ -121,9 +121,6 @@ targets:
       CoreData:
     siblings:
       - foundation
-    deps:
-      SwifterSwift:
-        version: 5.1.0
   - name: swiftlibs_coregraphics
     podspec_suffix: coregraphics
     deployment:
@@ -137,9 +134,6 @@ targets:
       QuartzCore:
     siblings:
       - foundation
-    deps:
-      SwifterSwift:
-        version: 5.1.0
   - name: swiftlibs_corelocation
     podspec_suffix: corelocation
     deployment:
@@ -156,8 +150,6 @@ targets:
         ios: true
         watchos: false
         osx: false
-      SwifterSwift:
-        version: 5.1.0
     siblings:
       - foundation
   - name: swiftlibs_mapkit
@@ -167,8 +159,6 @@ targets:
     sources:
       - src/mapkit/**/*.{h,m,swift}
     deps:
-      SwifterSwift:
-        version: 5.1.0
     frameworks:
       Foundation:
       CoreLocation:
@@ -186,12 +176,8 @@ targets:
     frameworks:
       Foundation:
     deps:
-      KeychainAccess:
-        version: 4.1.0
       RealmSwift:
         version: 4.1.1
-      SwifterSwift:
-        version: 5.1.0
     siblings:
       - foundation
   - name: swiftlibs_alamo
@@ -247,8 +233,6 @@ targets:
         version: 5.0.1
       NVActivityIndicatorView:
         version: 4.8.0
-      KeychainAccess:
-        version: 4.1.0
       SwipeCellKit:
         version: 2.7.1
       BRYXBanner:
@@ -261,8 +245,6 @@ targets:
         version: 5.1.0
       ReachabilitySwift:
         version: 5.0.0
-      SwifterSwift:
-        version: 5.1.0
     siblings:
       - foundation
       - coregraphics

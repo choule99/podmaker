@@ -131,12 +131,27 @@ class PodspecWriter {
         return `\ts.${platform}.deployment_target = '${config.platforms[platform]}'\n`;
     }
 
-    generateSiblings(target, config, platform) {
+    generateSiblings(target, config, platform, targetBySuffix) {
         let content = '';
         _.each(target.siblings,
                dep => {
+                   content += '\n';
+
+                   let siblingTarget = targetBySuffix[dep];
+                   if (siblingTarget) {
+                       this.generateSiblings(siblingTarget,
+                                             config,
+                                             platform,
+                                             targetBySuffix);
+                   }
+
                    content += `\ts.${platform}.dependency '${config.prefix[platform]}_${dep}'`;
                    content += '\n';
+
+                   if (siblingTarget) {
+                       content += this.generateDependencies(siblingTarget,
+                                                            platform);
+                   }
                });
         return content;
     }
@@ -144,11 +159,16 @@ class PodspecWriter {
     writePodspec(config) {
 
         let platforms = Object.keys(config.prefix);
+
+        let targetBySuffix = {};
+        _.map(config.targets,
+              target => {
+                  targetBySuffix[target.suffix] = target;
+              });
+
         _.forEach(config.targets,
                   target => {
-
                       if (target.omitPodspec === true) return;
-
                       _.each(platforms,
                              platform => {
 
@@ -174,11 +194,13 @@ class PodspecWriter {
                                  content += this.generateSources(target);
                                  content += this.generateFrameworks(target,
                                                                     platform);
-                                 content += this.generateDependencies(target,
-                                                                      platform);
                                  content += this.generateSiblings(target,
                                                                   config,
-                                                                  platform);
+                                                                  platform,
+                                                                  targetBySuffix);
+
+                                 content += this.generateDependencies(target,
+                                                                      platform);
                                  content += this.generateBundles(target);
                                  content += `end`;
                                  fs.writeFileSync(`${podspecName}.podspec`,
